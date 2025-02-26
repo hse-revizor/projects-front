@@ -10,6 +10,7 @@ export default function (env: any): webpack.Configuration {
       src: path.resolve(__dirname, 'src'),
       output: path.resolve(__dirname, './production', 'build'),
       entry: path.resolve(__dirname, 'src', 'index.tsx'),
+      publicPath: path.resolve(__dirname, 'public'),
       html: path.resolve(__dirname, 'public', 'index.html'),
       back: path.resolve(__dirname, 'back'),
     },

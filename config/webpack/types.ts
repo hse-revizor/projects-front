@@ -1,10 +1,14 @@
-export interface BuildPaths {
+import type { ICopiedPaths } from './copied';
+
+export interface BaseBuildPaths {
   src: string;
   entry: string;
-  output: string;
   html: string;
+  output: string;
   back: string;
 }
+
+export type BuildPaths = BaseBuildPaths & ICopiedPaths;
 
 export interface BuildDevOptions {
   port?: number;

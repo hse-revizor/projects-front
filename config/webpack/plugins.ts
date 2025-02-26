@@ -1,28 +1,24 @@
+import { getCopiedPaths } from './copied';
+import { BuildPaths } from './types';
+import CopyPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import { Configuration, ProgressPlugin, container } from 'webpack';
+import path from 'path';
+import { Configuration, ProgressPlugin } from 'webpack';
 
-const { ModuleFederationPlugin } = container;
-
-export function derivePlugins(
-  _: boolean,
-  htmlPath: string
-): Configuration['plugins'] {
+export function derivePlugins(paths: BuildPaths): Configuration['plugins'] {
   return [
-    new ModuleFederationPlugin({
-      name: "editor",
-      filename: "remoteEntry.js",
-      library: { type: "var", name: "editor" },
-      remotes: {},
-      exposes: {
-        "./index": "./src/index.tsx"
-      }
-    }),
     new HtmlWebpackPlugin({
-      template: htmlPath,
+      template: paths.html,
       inject: true,
     }),
-    new ProgressPlugin(), 
-    new MiniCssExtractPlugin(),
+    new ProgressPlugin(),
+    new MiniCssExtractPlugin({
+      filename: path.join('css', '[name].[contenthash:8].css'),
+      chunkFilename: path.join('css', '[name].[contenthash:8].css'),
+    }),
+    new CopyPlugin({
+      patterns: getCopiedPaths(paths),
+    }),
   ];
 }

@@ -1,10 +1,9 @@
-import webpack from 'webpack';
-import path from 'path';
-
 import { deriveDevServer } from './devServer';
 import { deriveLoaders } from './loaders';
 import { derivePlugins } from './plugins';
 import { BuildOptions } from './types';
+import path from 'path';
+import webpack from 'webpack';
 
 export default function build(options: BuildOptions): webpack.Configuration {
   return {
@@ -32,7 +31,7 @@ export default function build(options: BuildOptions): webpack.Configuration {
         '@domain': path.join(options.paths.back, 'src', 'domain'),
       },
     },
-    plugins: derivePlugins(options.isProd, options.paths.html),
+    plugins: derivePlugins(options.paths),
     ...(options.isProd
       ? {}
       : {

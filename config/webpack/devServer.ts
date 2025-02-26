@@ -1,12 +1,18 @@
-import { Configuration } from 'webpack-dev-server';
 import { BuildDevOptions } from './types';
+import { Configuration } from 'webpack-dev-server';
 
 export function deriveDevServer({ port }: BuildDevOptions): Configuration {
   return {
-    port: port ? port : 7438,
-    open: true,
+    port: port ? port : 7437,
+    open: false, 
     historyApiFallback: true,
-    proxy: [],
+    proxy: [
+      {
+        context: '/projects-api',
+        pathRewrite: { '^/projects-api': '' },
+        target: 'http://62.113.42.34:8772',
+      },
+    ],
     // setupMiddlewares: (middlewares, devServer) => {
     //   if (!devServer?.app) {
     //     throw new Error('webpack-dev-server is not defined');
